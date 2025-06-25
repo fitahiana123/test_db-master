@@ -48,46 +48,94 @@ $result = $stmt->get_result();
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     <style>
-        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
-        .main-container { background: white; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); margin: 20px auto; }
-        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 20px 20px 0 0; }
-        .content { padding: 30px; }
+        body { 
+            background-color: #f8f9fa;
+            padding-top: 20px;
+        }
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .card-header {
+            background: linear-gradient(135deg, #007bff 0%, #6610f2 100%);
+            color: white;
+            border: none;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #007bff 0%, #6610f2 100%);
+            border: none;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #0069d9 0%, #5209cf 100%);
+        }
     </style>
 </head>
 <body>
-    <div class="back-link">
-        <a href="index.php">← Retour à la liste des départements</a>
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-12">
+                <a href="index.php" class="btn btn-primary">
+                    <i class="bi bi-arrow-left"></i> Retour à la liste des départements
+                </a>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="mb-0">Employés du département : <?php echo htmlspecialchars($dept_name . ' (' . $dept_no . ')'); ?></h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Numéro employé</th>
+                                        <th>Prénom</th>
+                                        <th>Nom</th>
+                                        <th>Date d'embauche</th>
+                                        <th>Début dans le département</th>
+                                        <th>Fin dans le département</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php if ($result && $result->num_rows > 0): ?>
+                                        <?php while($row = $result->fetch_assoc()): ?>
+                                            <tr>
+                                                <td><?php echo htmlspecialchars($row['emp_no']); ?></td>
+                                                <td><?php echo htmlspecialchars($row['first_name']); ?></td>
+                                                <td><?php echo htmlspecialchars($row['last_name']); ?></td>
+                                                <td><?php echo htmlspecialchars($row['hire_date']); ?></td>
+                                                <td><?php echo htmlspecialchars($row['from_date']); ?></td>
+                                                <td><?php echo htmlspecialchars($row['to_date']); ?></td>
+                                            </tr>
+                                        <?php endwhile; ?>
+                                    <?php else: ?>
+                                        <tr>
+                                            <td colspan="6" class="text-center text-muted">Aucun employé trouvé dans ce département.</td>
+                                        </tr>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-4 mb-5">
+            <div class="col-12 text-center">
+                <a href="index.php" class="btn btn-primary">
+                    <i class="bi bi-arrow-left"></i> Retour à la liste des départements
+                </a>
+            </div>
+        </div>
     </div>
     
-    <h2>Employés du département : <?php echo htmlspecialchars($dept_name . ' (' . $dept_no . ')'); ?></h2>
-    
-    <table>
-        <tr>
-            <th>Numéro employé</th>
-            <th>Prénom</th>
-            <th>Nom</th>
-            <th>Date d'embauche</th>
-            <th>Début dans le département</th>
-            <th>Fin dans le département</th>
-        </tr>
-        <?php if ($result && $result->num_rows > 0): ?>
-            <?php while($row = $result->fetch_assoc()): ?>
-                <tr>
-                    <td><?php echo htmlspecialchars($row['emp_no']); ?></td>
-                    <td><?php echo htmlspecialchars($row['first_name']); ?></td>
-                    <td><?php echo htmlspecialchars($row['last_name']); ?></td>
-                    <td><?php echo htmlspecialchars($row['hire_date']); ?></td>
-                    <td><?php echo htmlspecialchars($row['from_date']); ?></td>
-                    <td><?php echo htmlspecialchars($row['to_date']); ?></td>
-                </tr>
-            <?php endwhile; ?>
-        <?php else: ?>
-            <tr><td colspan="6">Aucun employé trouvé dans ce département.</td></tr>
-        <?php endif; ?>
-    </table>
-    
-    <div class="back-link">
-        <a href="index.php">← Retour à la liste des départements</a>
-    </div>
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

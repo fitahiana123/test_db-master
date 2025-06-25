@@ -1,83 +1,21 @@
-===============================================================
-📝 TO-DO LISTE - PAGES ET FONCTIONS
-===============================================================
+to_do_liste 
 
-📁 FICHIERS CRÉÉS :
-===============================================================
+creation de fichier :
+  pages:
+   index.php:
+     manao any ilay entete na page (ok)
+     mirelie anilay page @ ilay base de donné (ok)
+     manamboatra anilay tableau (ok)
 
-1. 📄 todo.php
-   - Page principale de la to-do liste
-   - Interface utilisateur complète
+     cone
+     
+    
+    
 
-2. 📄 install_todo.php
-   - Page d'installation automatique
-   - Configuration initiale
 
-3. 📄 employes_departement.php
-   - Page listant les employés par département
-   - Affichage détaillé des employés
 
-4. 📄 index.php
-   - Page principale des départements
-   - Liste avec liens vers employés
 
-5. 📄 connexion.php
-   - Fichier de connexion à la base de données
-   - Fonction dbconnect()
 
-===============================================================
-🔧 FONCTIONS PRINCIPALES :
-===============================================================
 
-� TO-DO LISTE (todo.php) :
-   ➕ Ajouter une tâche
-   ✏️ Modifier une tâche
-   🗑️ Supprimer une tâche
-   ✅ Marquer terminée/non terminée
-   � Filtrer (toutes/en cours/terminées)
-   � Afficher statistiques
 
-� DÉPARTEMENTS (index.php) :
-   📋 Lister tous les départements
-   👥 Afficher le manager actuel
-   🔗 Liens vers les employés
-
-� EMPLOYÉS (employes_departement.php) :
-   📋 Lister employés par département
-   � Afficher dates d'embauche
-   🔙 Retour aux départements
-
-⚙️ INSTALLATION (install_todo.php) :
-   🔧 Créer table todos
-   � Insérer données exemple
-   ✅ Vérifier installation
-
-===============================================================
-🌐 URLS D'ACCÈS :
-===============================================================
-
-� Pages principales :
-   - index.php (départements)
-   - todo.php (to-do liste)
-   - employes_departement.php?dept_no=XXX
-
-� Installation :
-   - install_todo.php
-
-===============================================================
-🎯 PRIORITÉS TO-DO :
-===============================================================
-
-� HAUTE    - Tâches urgentes
-🟡 MOYENNE  - Tâches normales  
-� BASSE    - Tâches optionnelles
-
-===============================================================
-� FONCTIONNALITÉS INTERFACE :
-===============================================================
-
-🎨 Design moderne et responsive
-🔄 Actions en temps réel
-📊 Statistiques dynamiques
-🔍 Filtres interactifs
-✨ Animations fluides
+    
