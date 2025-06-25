@@ -9,7 +9,7 @@ $conn = dbconnect();
 //dxdxtrdxrdxrx
 
 //rianalaaaah
-
+//Fita.c
 $sql = "
 SELECT d.dept_no, d.dept_name, 
        e.first_name, e.last_name
