@@ -1,13 +1,26 @@
-to_do_liste 
+to_do_list
 
-creation de fichier :
-  pages:
-   index.php:
-     manao any ilay entete na page (ok)
-     mirelie anilay page @ ilay base de donné (ok)
-     manamboatra anilay tableau (ok)
+# V1
+  creation des fichiers :
+      - connexion.php (page de connexion a la base de donnée ; includer dans chaque page)
+      - index.php (page principale pour afficher la liste des departements et )
+      - employes_departement.php (pour afficher la liste des employés d'un département )
 
-     cone
+  fonctionnalité
+      - test de requête sql pour afficher la liste des départements et la liste des employés en cours dans ce district
+      - application de la requête dans index.php 
+      - Ajout des liens sur chaque ligne de departement pour afficher la liste des employés de ce departement
+      - test requête pour afficher la lioste des employées du lien du departement selectionné 
+      - utiliser la requête dans employes_departement.php
+
+# V2
+  creation nouveau fichier
+      - 
+  
+
+
+   
+    
      
     
     
