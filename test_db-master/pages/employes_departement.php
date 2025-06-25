@@ -106,8 +106,16 @@ $result = $stmt->get_result();
                                         <?php while($row = $result->fetch_assoc()): ?>
                                             <tr>
                                                 <td><?php echo htmlspecialchars($row['emp_no']); ?></td>
-                                                <td><?php echo htmlspecialchars($row['first_name']); ?></td>
-                                                <td><?php echo htmlspecialchars($row['last_name']); ?></td>
+                                                <td>
+                                                    <a href="fiche_employe.php?emp_no=<?php echo urlencode($row['emp_no']); ?>" class="text-decoration-none text-primary">
+                                                        <?php echo htmlspecialchars($row['first_name']); ?>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a href="fiche_employe.php?emp_no=<?php echo urlencode($row['emp_no']); ?>" class="text-decoration-none text-primary">
+                                                        <?php echo htmlspecialchars($row['last_name']); ?>
+                                                    </a>
+                                                </td>
                                                 <td><?php echo htmlspecialchars($row['hire_date']); ?></td>
                                                 <td><?php echo htmlspecialchars($row['from_date']); ?></td>
                                                 <td><?php echo htmlspecialchars($row['to_date']); ?></td>
