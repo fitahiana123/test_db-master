@@ -15,11 +15,13 @@ to_do_list
 
 # V2
   creation nouveau fichier
+      - fiche_employe.php (pour afficher les infos de l'employé)
+      - recherche_employe.php (pour afficher les info sur l'employé selectionner)
       - 
-  
 
+  fonctionnalité
+      - 
 
-   
     
      
     
