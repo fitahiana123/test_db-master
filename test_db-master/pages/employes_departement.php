@@ -28,7 +28,7 @@ SELECT e.emp_no, e.first_name, e.last_name, e.hire_date,
 FROM employees e
 JOIN dept_emp de ON e.emp_no = de.emp_no
 WHERE de.dept_no = ?
-ORDER BY e.last_name, e.first_name
+ORDER BY e.last_name and e.first_name 
 ";
 
 $stmt = $conn->prepare($sql);
