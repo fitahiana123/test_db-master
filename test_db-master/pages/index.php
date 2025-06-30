@@ -1,26 +1,26 @@
 <?php
-
+//de aona de aoona 
 
 include 'connexion.php';
 
 $conn = dbconnect();
 
-// Récupérer la liste des départements pour la liste déroulante
+
 $departements = [];
 $res_dept = $conn->query("SELECT dept_no, dept_name FROM departments ORDER BY dept_name");
 while ($row = $res_dept->fetch_assoc()) {
     $departements[] = $row;
 }
-// Récupérer la liste des managers pour la liste déroulante
+
 $managers = [];
 $res_mgr = $conn->query("SELECT e.emp_no, e.first_name, e.last_name FROM employees e JOIN dept_manager dm ON e.emp_no = dm.emp_no GROUP BY e.emp_no ORDER BY e.last_name, e.first_name");
 while ($res_mgr && $row = $res_mgr->fetch_assoc()) {
     $managers[] = $row;
 }
-// Récupérer les filtres
+
 $filter_dept = isset($_GET['dept_no']) ? $_GET['dept_no'] : '';
 $filter_mgr = isset($_GET['mgr_no']) ? $_GET['mgr_no'] : '';
-// Adapter la requête SQL selon les filtres
+
 $conditions = [];
 if ($filter_dept !== '') {
     $conditions[] = "d.dept_no = '" . $conn->real_escape_string($filter_dept) . "'";
