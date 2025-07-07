@@ -84,6 +84,9 @@ CREATE TABLE titles (
     PRIMARY KEY (emp_no,title, from_date)
 ); 
 
+select * from titles;
+
+
 /*!50510
 ALTER TABLE titles 
 partition by range COLUMNS (from_date)
