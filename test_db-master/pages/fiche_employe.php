@@ -46,7 +46,9 @@ $res_titles = $stmt_titles->get_result();
 <html lang="fr">
 <head>
     <title>Fiche de l'employé <?php echo htmlspecialchars($employe['first_name'] . ' ' . $employe['last_name']); ?></title>
-    <?php include 'includes/bootstrap_head.php'; ?>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         .employee-card {
             border-radius: 1.5rem;
@@ -149,7 +151,9 @@ $res_titles = $stmt_titles->get_result();
     </style>
 </head>
 <body>
-    <?php include 'includes/navbar.php'; ?>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     
     <div class="container">
         <!-- Breadcrumb -->
