@@ -87,9 +87,19 @@ $result = $conn->query($sql);
             <th>Numéro</th>
             <th>Nom du département</th>
             <th>Manager en cours</th>
+            <th>Nombre d'employés</th>
         </tr>
         <?php if ($result && $result->num_rows > 0): ?>
-            <?php while($row = $result->fetch_assoc()): ?>
+            <?php 
+            // Préparer une requête pour compter les employés par département
+            $sql_count = "SELECT dept_no, COUNT(*) as nb_emp FROM dept_emp WHERE to_date = '9999-01-01' GROUP BY dept_no";
+            $res_count = $conn->query($sql_count);
+            $nb_emp_dept = [];
+            while($rowc = $res_count->fetch_assoc()) {
+                $nb_emp_dept[$rowc['dept_no']] = $rowc['nb_emp'];
+            }
+            $result->data_seek(0); // reset pointer
+            while($row = $result->fetch_assoc()): ?>
                 <tr>
                     <td><?php echo htmlspecialchars($row['dept_no']); ?></td>
                     <td>
@@ -106,10 +116,15 @@ $result = $conn->query($sql);
                         }
                         ?>
                     </td>
+                    <td style="text-align:center;">
+                        <a href="statistique_emplois.php?dept_no=<?php echo urlencode($row['dept_no']); ?>" style="font-weight:bold; color:#0d6efd; text-decoration:underline;">
+                            <?php echo isset($nb_emp_dept[$row['dept_no']]) ? $nb_emp_dept[$row['dept_no']] : 0; ?>
+                        </a>
+                    </td>
                 </tr>
             <?php endwhile; ?>
         <?php else: ?>
-            <tr><td colspan="3">Aucun département trouvé.</td></tr>
+            <tr><td colspan="4">Aucun département trouvé.</td></tr>
         <?php endif; ?>
     </table>
 </body>

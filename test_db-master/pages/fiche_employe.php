@@ -41,6 +41,14 @@ $stmt_titles = $conn->prepare($sql_titles);
 $stmt_titles->bind_param("i", $emp_no);
 $stmt_titles->execute();
 $res_titles = $stmt_titles->get_result();
+
+// Trouver l'emploi le plus long
+$sql_longest_title = "SELECT title, from_date, to_date, DATEDIFF(to_date, from_date) AS duree FROM titles WHERE emp_no = ? ORDER BY duree DESC LIMIT 1";
+$stmt_longest = $conn->prepare($sql_longest_title);
+$stmt_longest->bind_param("i", $emp_no);
+$stmt_longest->execute();
+$res_longest = $stmt_longest->get_result();
+$longest_title = $res_longest->fetch_assoc();
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -197,6 +205,17 @@ $res_titles = $stmt_titles->get_result();
                                         <?php echo htmlspecialchars($employe['title'] ?: 'Poste non défini'); ?>
                                     </span>
                                 </div>
+                                <?php if ($longest_title): ?>
+                                <div class="mt-2">
+                                    <span class="badge bg-info text-dark">
+                                        <i class="bi bi-trophy me-1"></i>
+                                        Emploi le plus long :
+                                        <strong><?php echo htmlspecialchars($longest_title['title']); ?></strong>
+                                        (<?php echo htmlspecialchars(date('d/m/Y', strtotime($longest_title['from_date']))); ?> - <?php echo htmlspecialchars(date('d/m/Y', strtotime($longest_title['to_date']))); ?>)
+                                        [<?php echo round($longest_title['duree']/365.25, 1); ?> an(s)]
+                                    </span>
+                                </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -402,3 +421,5 @@ $res_titles = $stmt_titles->get_result();
    
 </body>
 </html>
+
+
