@@ -302,7 +302,7 @@ $res_titles = $stmt_titles->get_result();
                                         <th><i class="bi bi-currency-euro me-1"></i>Montant</th>
                                         <th><i class="bi bi-calendar-check me-1"></i>Début</th>
                                         <th><i class="bi bi-calendar-x me-1"></i>Fin</th>
-                                        <th width="120">Durée</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -316,14 +316,7 @@ $res_titles = $stmt_titles->get_result();
                                                 </td>
                                                 <td><?php echo htmlspecialchars(date('d/m/Y', strtotime($sal['from_date']))); ?></td>
                                                 <td><?php echo htmlspecialchars(date('d/m/Y', strtotime($sal['to_date']))); ?></td>
-                                                <td>
-                                                    <span class="badge bg-info">
-                                                        <?php 
-                                                        $duree = floor((strtotime($sal['to_date']) - strtotime($sal['from_date'])) / (365.25 * 24 * 3600));
-                                                        echo $duree . ' an' . ($duree > 1 ? 's' : '');
-                                                        ?>
-                                                    </span>
-                                                </td>
+                                               
                                             </tr>
                                         <?php endwhile; ?>
                                     <?php else: ?>
