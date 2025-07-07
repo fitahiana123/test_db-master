@@ -9,10 +9,10 @@ if (!$emp_no) {
     exit;
 }
 
-// Infos principales
+// Infos principales (après changement de département, on prend le plus récent)
 $sql = "SELECT e.*, t.title, d.dept_name, de.from_date as dept_from, de.to_date as dept_to
         FROM employees e
-        LEFT JOIN dept_emp de ON e.emp_no = de.emp_no
+        LEFT JOIN dept_emp de ON e.emp_no = de.emp_no AND de.to_date = '9999-01-01'
         LEFT JOIN departments d ON de.dept_no = d.dept_no
         LEFT JOIN titles t ON e.emp_no = t.emp_no AND t.to_date = (SELECT MAX(to_date) FROM titles WHERE emp_no = e.emp_no)
         WHERE e.emp_no = ?
@@ -49,6 +49,40 @@ $stmt_longest->bind_param("i", $emp_no);
 $stmt_longest->execute();
 $res_longest = $stmt_longest->get_result();
 $longest_title = $res_longest->fetch_assoc();
+
+// Récupérer la liste des départements (pour le formulaire)
+$departements = [];
+$res_dept = $conn->query("SELECT dept_no, dept_name FROM departments ORDER BY dept_name");
+while ($row = $res_dept->fetch_assoc()) {
+    $departements[] = $row;
+}
+
+// Gestion du formulaire de changement de département
+$message = '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['changer_dept'])) {
+    $new_dept = $_POST['new_dept'] ?? '';
+    $new_from = $_POST['new_from'] ?? '';
+    $current_dept = $employe['dept_name'];
+    $current_from = $employe['dept_from'];
+    if (!$new_dept || !$new_from) {
+        $message = '<div class="alert alert-danger">Veuillez choisir un département et une date de début.</div>';
+    } elseif ($new_from < $current_from) {
+        $message = '<div class="alert alert-danger">La date de début du nouveau département ne peut pas être antérieure à la date de début du département actuel.</div>';
+    } else {
+        // Mettre fin à l'affectation actuelle
+        $stmt_end = $conn->prepare("UPDATE dept_emp SET to_date = ? WHERE emp_no = ? AND to_date = '9999-01-01'");
+        $stmt_end->bind_param("si", $new_from, $emp_no);
+        $stmt_end->execute();
+        // Ajouter la nouvelle affectation
+        $to_date = '9999-01-01';
+        $stmt_new = $conn->prepare("INSERT INTO dept_emp (emp_no, dept_no, from_date, to_date) VALUES (?, ?, ?, ?)");
+        $stmt_new->bind_param("isss", $emp_no, $new_dept, $new_from, $to_date);
+        $stmt_new->execute();
+        // Rafraîchir les infos employé
+        header("Location: fiche_employe.php?emp_no=" . $emp_no . "&success=1");
+        exit;
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -400,6 +434,53 @@ $longest_title = $res_longest->fetch_assoc();
             </div>
         </div>
 
+        <!-- Changer de département -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="bi bi-arrow-right-circle me-2"></i>Changer de département
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <?php if (!empty($message)) echo $message; ?>
+                        <div class="mb-4">
+                            <button class="btn btn-warning" type="button" data-bs-toggle="collapse" data-bs-target="#changerDeptForm" aria-expanded="false" aria-controls="changerDeptForm">
+                                <i class="bi bi-arrow-left-right"></i> Changer de département
+                            </button>
+                            <div class="collapse mt-3" id="changerDeptForm">
+                                <div class="card card-body">
+                                    <div class="mb-3">
+                                        <strong>Département actuel :</strong> <?php echo htmlspecialchars($employe['dept_name'] ?: 'Non assigné'); ?>
+                                        <br><strong>Date de début :</strong> <?php echo htmlspecialchars($employe['dept_from'] ? date('d/m/Y', strtotime($employe['dept_from'])) : 'N/A'); ?>
+                                    </div>
+                                    <form method="post">
+                                        <div class="mb-3">
+                                            <label for="new_dept" class="form-label">Nouveau département</label>
+                                            <select name="new_dept" id="new_dept" class="form-select" required>
+                                                <option value="">-- Choisir --</option>
+                                                <?php foreach($departements as $d): ?>
+                                                    <?php if ($d['dept_name'] !== $employe['dept_name']): ?>
+                                                        <option value="<?php echo htmlspecialchars($d['dept_no']); ?>"><?php echo htmlspecialchars($d['dept_name']); ?></option>
+                                                    <?php endif; ?>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="new_from" class="form-label">Date de début</label>
+                                            <input type="date" name="new_from" id="new_from" class="form-control" min="<?php echo htmlspecialchars($employe['dept_from']); ?>" required>
+                                        </div>
+                                        <button type="submit" name="changer_dept" class="btn btn-primary">Valider le changement</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Actions -->
         <div class="row mt-4 mb-5">
             <div class="col-12 text-center">
@@ -418,7 +499,8 @@ $longest_title = $res_longest->fetch_assoc();
         </div>
     </div>
     
-   
+    <!-- Bootstrap JS pour le collapse -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
 

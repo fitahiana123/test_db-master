@@ -21,14 +21,14 @@ if ($result_dept && $result_dept->num_rows > 0) {
     $dept_name = $row_dept['dept_name'];
 }
 
-// Récupérer la liste des employés du département
+// Récupérer la liste des employés du département (seulement ceux en cours)
 $sql = "
 SELECT e.emp_no, e.first_name, e.last_name, e.hire_date,
        de.from_date, de.to_date
 FROM employees e
 JOIN dept_emp de ON e.emp_no = de.emp_no
-WHERE de.dept_no = ?
-ORDER BY e.last_name and e.first_name 
+WHERE de.dept_no = ? AND de.to_date = '9999-01-01'
+ORDER BY e.last_name, e.first_name
 ";
 
 $stmt = $conn->prepare($sql);
